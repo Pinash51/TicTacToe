@@ -1,11 +1,24 @@
 import { Slot } from 'expo-router';
 import { SessionProvider } from '../Share/ctx';
+import { StatusBar } from 'expo-status-bar';
+import { ThemedView } from '@/components/ThemedView';
+import { StyleSheet } from 'react-native';
 
 export default function Root() {
-  // Set up the auth context and render our layout inside of it.
   return (
     <SessionProvider>
-      <Slot />
+      <StatusBar style="auto" hidden={false} />
+      <ThemedView style={styles.container}>
+        <Slot />
+      </ThemedView>
     </SessionProvider>
   );
 }
+
+// Styles
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: 35,
+  }
+});

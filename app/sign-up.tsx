@@ -9,17 +9,25 @@ import { ThemedText } from '@/components/ThemedText';
 import { HelloWave } from '@/components/HelloWave';
 import { useSession } from '@/Share/ctx';
 
-export default function LoginScreen() {
+export default function RegisterScreen() {
   const colorScheme = useColorScheme();
-  const [email, setEmail] = useState('Mallika');
-  const [password, setPassword] = useState('Mallika');
-  const [plateform, setPlateform] = useState(Platform.OS);
-  const { signIn } = useSession();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [rePassword, setRePassword] = useState('');
+  const [plateform] = useState(Platform.OS);
   
   const handleLogin = () => {
     if (email && password) {
-      signIn(email,password);
-      router.replace('/');
+      if(password == rePassword) {
+        router.replace('/sign-in');
+      } else {
+        if(plateform == "web") {
+          alert("Password is not same.");
+        }
+        else {
+          Alert.alert('Error', 'Password is not same.');
+        }
+      }
     } else {
       if(plateform == "web") {
         alert("Please fill out both fields.");
@@ -41,7 +49,7 @@ export default function LoginScreen() {
       }>
       <ThemedView style={styles.container}>
           <ThemedText type="title" style={styles.title}>
-            Login
+            Register
           </ThemedText>
           <TextInput
             style={styles.input}
@@ -61,12 +69,22 @@ export default function LoginScreen() {
             secureTextEntry
             autoCapitalize="none"
           />
-          <TouchableOpacity style={styles.button} onPress={handleLogin}>
-            <Text style={styles.buttonText}>Sign In</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Re Password"
+            placeholderTextColor="#888"
+            value={rePassword}
+            onChangeText={setRePassword}
+            secureTextEntry
+            autoCapitalize="none"
+          />
+          <TouchableOpacity style={styles.button} 
+            onPress={handleLogin}>
+            <Text style={styles.buttonText}>Sign Up</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.button} 
-            onPress={() => {router.replace('/sign-up');}}>
-            <Text style={styles.buttonText}>Sign Up</Text>
+            onPress={() => {router.replace('/sign-in');}}>
+            <Text style={styles.buttonText}>Already Sign Up! Sign In</Text>
           </TouchableOpacity>
       </ThemedView>
     </ParallaxScrollView>
